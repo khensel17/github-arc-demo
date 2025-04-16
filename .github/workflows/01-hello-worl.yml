@@ -26,3 +26,4 @@ jobs:
             --cookie 'csrftoken=$CSRFTOKEN' \
             awx-demo-service.awx.svc.cluster.local:80/api/login/ -k -D - -o /dev/null
           curl -v --user "admin:${{ secrets.AWX_PASSWORD }}" awx-demo-service.awx.svc.cluster.local:80/api/v2/job_templates/7/launch/
+          curl -v -X POST --user "admin:${{ secrets.AWX_PASSWORD }}" awx-demo-service.awx.svc.cluster.local:80/api/v2/job_templates/7/launch/
