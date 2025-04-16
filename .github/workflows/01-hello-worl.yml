@@ -6,3 +6,6 @@ jobs:
     steps:
       - name: my-step
         run: echo "Hello World!"
+
+      - name: test-awx-connection
+        run: curl awx-demo-service.svc.cluster.local:80 -v
