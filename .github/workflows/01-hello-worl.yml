@@ -15,3 +15,6 @@ jobs:
 
       - name: test-ansible
         run: ansible -m ping localhost
+
+      - name: trigger-awx-template
+        run: curl -v awx-demo-service.awx.svc.cluster.local:80/api/v2/job_templates/7/launch/
