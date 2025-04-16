@@ -4,8 +4,16 @@ jobs:
   my-job:
     runs-on: self-hosted
     steps:
-      - name: my-step
-        run: echo "Hello World!"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Checkout tools repo
+        uses: actions/checkout@v4
+        with:
+          repository: khensel17/demo-ocp-v
+          path: tools
 
       - name: test-awx-connection
         run: curl awx-demo-service.awx.svc.cluster.local:80 -v
