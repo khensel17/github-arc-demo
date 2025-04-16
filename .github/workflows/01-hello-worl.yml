@@ -1,0 +1,8 @@
+name: hello-world
+on: push
+jobs:
+  my-job:
+    runs-on: example-runnerdeploy-fxhct-jv82r
+    steps:
+      - name: my-step
+        run: echo "Hello World!"
