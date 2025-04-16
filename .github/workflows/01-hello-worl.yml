@@ -17,4 +17,12 @@ jobs:
         run: ansible -m ping localhost
 
       - name: trigger-awx-template
-        run: curl -v awx-demo-service.awx.svc.cluster.local:80/api/v2/job_templates/7/launch/
+        run: |
+          CSRFTOKEN=$(curl -k -c - awx-demo-service.awx.svc.cluster.local:80/api/login/ | tail -n1 | awk '{print $7}')
+          curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+            --referer awx-demo-service.awx.svc.cluster.local:80/api/login/ \
+            -H 'X-CSRFToken: $CSRFTOKEN' \
+            --data 'username=admin&password=${{ secrets.AWX_PASSWORD }}' \
+            --cookie 'csrftoken=$CSRFTOKEN' \
+            awx-demo-service.awx.svc.cluster.local:80/api/login/ -k -D - -o /dev/null
+          curl -v awx-demo-service.awx.svc.cluster.local:80/api/v2/job_templates/7/launch/
