@@ -68,5 +68,5 @@ kubectl get secret/awx-demo-admin-password -n awx -o json | jq '.data | map_valu
 Deploy ARC runner:
 
 ```bash
-kubectl apply -f runner-deployment.yaml -n actions-runner-system
+# kubectl apply -f runner-deployment.yaml -n actions-runner-system
 ```
