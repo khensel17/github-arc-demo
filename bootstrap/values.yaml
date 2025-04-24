@@ -1,0 +1,5 @@
+arc_runners_namespace: arc-runners
+
+# Github ARC PAT
+github_token: ""
+
