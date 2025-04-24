@@ -18,8 +18,8 @@ jobs:
       - name: test-awx-connection
         run: curl awx-demo-service.awx.svc.cluster.local:80 -v
 
-      # - name: install-ansible
-      #   run: pip3 install ansible-core ansible-lint
+      - name: install-ansible
+        run: pip3 install ansible-core ansible-lint
 
       - name: test-ansible
         run: ansible -m ping localhost
