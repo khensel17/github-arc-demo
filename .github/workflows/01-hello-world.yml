@@ -1,7 +1,7 @@
 name: hello-world
 on: push
 jobs:
-  my-job:
+  prepare:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
@@ -12,9 +12,13 @@ jobs:
       - name: Checkout tools repo
         uses: actions/checkout@v4
         with:
-          repository: khensel17/demo-ocp-v
-          path: tools
+          repository: khensel17/managed-ansible-awx
+          path: awx
 
+  test:
+    runs-on: arc-runner-set
+    needs: prepare
+    steps:
       - name: test-awx-connection
         run: curl awx-demo-service.awx.svc.cluster.local:80 -v
 
