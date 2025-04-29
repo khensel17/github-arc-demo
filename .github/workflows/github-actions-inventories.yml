@@ -66,7 +66,10 @@ jobs:
       - name: Deploy AWX configuration
         run: |
           echo 'This job deploys AWX configuration'
+          ls -lsa ../
           PDIR=$(pwd)
+          echo 'testing PDIR'
+          ls -lsa $PDIR
           cd $PDIR/awx
           export ANSIBLE_FORCE_COLOR=true
           if [ -e requirements.yml ]; then
