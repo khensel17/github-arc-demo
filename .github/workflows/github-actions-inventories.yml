@@ -1,0 +1,121 @@
+name: CI/CD Workflow
+
+on:
+  workflow_call:
+    secrets:
+      AWX_PASSWORD:
+        required: true
+        description: The password for the AWX admin user.
+      ANSIBLE_VAULT_PASSWORD:
+        required: true
+        description: The password for the Ansible Vault.
+
+env:
+  # https_proxy: "http://forward-proxy.domain.local:8080"
+  # http_proxy: "http://forward-proxy.domain.local:8080"
+  # no_proxy: |
+  #   127.0.0.1,
+  #   *.test.local,
+  #   *.production.local,
+  #   git.production.domain.local,
+  #   awx-tst2.apps.okdtst.production.domain.local,
+  #   awx-prd2.apps.okdprdb.production.domain.local
+  RUNNER_TAG: "test"
+  MANAGED_ANSIBLE_AWX_BRANCH: "development"
+
+jobs:
+  prepare:
+    runs-on: arc-runner-set
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Checkout tools repo
+        uses: actions/checkout@v4
+        with:
+          repository: khensel17/managed-ansible-awx
+          path: awx
+
+  linting:
+    runs-on: arc-runner-set
+    needs: prepare
+    steps:
+      - name: Run ansible-lint
+        run: ansible-lint --show-relpath --exclude awx/
+
+  test:
+    runs-on: arc-runner-set
+    needs: prepare
+    steps:
+      - name: Install Ansible Galaxy requirements
+        run: |
+          if [ -e requirements.yml ]; then
+            ansible-galaxy install -r requirements.yml
+          fi
+
+  deploy:
+    runs-on: arc-runner-set
+    needs: test
+    steps:
+      - name: Set Vault password
+        run: echo "$ANSIBLE_VAULT_PASSWORD" > vault-password.txt
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+      - name: Deploy AWX configuration
+        run: |
+          echo 'This job deploys AWX configuration'
+          PDIR=$(pwd)
+          cd $PDIR/awx
+          export ANSIBLE_FORCE_COLOR=true
+          if [ -e requirements.yml ]; then
+            ansible-galaxy collection install -r requirements.yml
+          fi
+          if [ -e $PDIR/host_vars/awx.yaml ]; then
+            ansible-playbook -i $PDIR/inventory.ini \
+              --vault-password-file $PDIR/vault-password.txt \
+              $PDIR/awx/playbooks/awx-configure.yaml
+          else
+            echo "Configuration file host_vars/awx.yaml not found"
+          fi
+      - name: Cleanup
+        run: |
+          rm vault-password.txt
+
+  sync:
+    runs-on: arc-runner-set
+    needs: deploy
+    steps:
+      - name: Set Vault password
+        run: echo "$ANSIBLE_VAULT_PASSWORD" > vault-password.txt
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+      - name: Sync AWX inventory
+        run: |
+          echo 'This job will sync the AWX inventory'
+          PDIR=$(pwd)
+          cd $PDIR/awx
+          export ANSIBLE_FORCE_COLOR=true
+          if [ -e requirements.yml ]; then
+            ansible-galaxy collection install -r requirements.yml
+          fi
+          HTTPS_CLONE_URL=$(echo $CI_PROJECT_URL | sed "s/gitlab.production/git.production/" | awk '{print $1".git"}')
+          for file in "$PDIR/.awx_config"/*; do
+            case $file in
+              *.yaml|*.yml)
+                echo "Syncing $file..."
+                ansible-playbook -i $PDIR/inventory.ini \
+                  --vault-password-file $PDIR/vault-password.txt \
+                  -e @$file \
+                  -e project_scm_url="${HTTPS_CLONE_URL}" \
+                  $PDIR/awx/playbooks/awx-sync-inventory.yaml
+                ;;
+              *)
+                continue
+                ;;
+            esac
+          done
+      - name: Cleanup
+        run: |
+          rm vault-password.txt

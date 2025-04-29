@@ -1,7 +1,7 @@
 gha-runner-scale-set:
   ## githubConfigUrl is the GitHub url for where you want to configure runners
   ## ex: https://github.com/myorg/myrepo or https://github.com/myorg
-  githubConfigUrl: "https://github.com/khensel17/github-arc-demo"
+  githubConfigUrl: "https://github.com/khensel17/ansible-inventory-tst"
 
   ## githubConfigSecret is the k8s secret information to use when authenticating via the GitHub API.
   ## You can choose to supply:
