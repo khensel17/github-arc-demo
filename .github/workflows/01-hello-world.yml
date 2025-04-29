@@ -1,5 +1,11 @@
 name: hello-world
-on: push
+# on: push
+on:
+  workflow_call:
+    secrets:
+      AWX_PASSWORD:
+        required: true
+        description: The password for the AWX admin user.
 jobs:
   prepare:
     runs-on: arc-runner-set
