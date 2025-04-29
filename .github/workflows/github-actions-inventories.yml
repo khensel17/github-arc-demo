@@ -67,6 +67,8 @@ jobs:
         run: |
           echo 'This job deploys AWX configuration'
           ls -lsa ../
+          echo 'testing parent dir'
+          ls -lsa ../../
           PDIR=$(pwd)
           echo 'testing PDIR'
           ls -lsa $PDIR
