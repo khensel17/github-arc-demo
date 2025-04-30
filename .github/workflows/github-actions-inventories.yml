@@ -62,12 +62,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: main
-      - name: Checkout tools repo
+          ref: main
+
+      - name: Checkout managed-ansible-awx repo
         uses: actions/checkout@v4
         with:
           repository: khensel17/managed-ansible-awx
+          ref: main
           path: awx
+
       - name: Set Vault password
         run: echo "$ANSIBLE_VAULT_PASSWORD" > vault-password.txt
         env:
