@@ -59,6 +59,11 @@ jobs:
     runs-on: arc-runner-set
     needs: test
     steps:
+      - name: Checkout tools repo
+        uses: actions/checkout@v4
+        with:
+          repository: khensel17/managed-ansible-awx
+          path: awx
       - name: Set Vault password
         run: echo "$ANSIBLE_VAULT_PASSWORD" > vault-password.txt
         env:
