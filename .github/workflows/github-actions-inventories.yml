@@ -122,7 +122,7 @@ jobs:
             ansible-galaxy collection install -r requirements.yml
           fi
 
-          HTTPS_CLONE_URL=$(echo $CI_PROJECT_URL | sed "s/gitlab.vipernext/git.vipernext/" | awk '{print $1".git"}')
+          HTTPS_CLONE_URL=$(echo $GITHUB_SERVER_URL/$GITHUB_REPOSITORY | awk '{print $1".git"}')
 
           echo 'Deploying config files in .awx_config directory...'
           for file in "$PDIR/.awx_config"/*; do
