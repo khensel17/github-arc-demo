@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     runs-on: arc-runner-set
-    needs: test
+    needs: [linting, test]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
