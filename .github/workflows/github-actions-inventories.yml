@@ -24,7 +24,7 @@ env:
   MANAGED_ANSIBLE_AWX_BRANCH: "development"
 
 jobs:
-  prepare:
+  linting:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
@@ -32,23 +32,17 @@ jobs:
         with:
           ref: main
 
-      - name: Checkout tools repo
-        uses: actions/checkout@v4
-        with:
-          repository: khensel17/managed-ansible-awx
-          path: awx
-
-  linting:
-    runs-on: arc-runner-set
-    needs: prepare
-    steps:
       - name: Run ansible-lint
         run: ansible-lint --show-relpath --exclude awx/
 
   test:
     runs-on: arc-runner-set
-    needs: prepare
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: Install Ansible Galaxy requirements
         run: |
           if [ -e requirements.yml ]; then
@@ -78,12 +72,7 @@ jobs:
       - name: Deploy AWX configuration
         run: |
           echo 'This job deploys AWX configuration'
-          ls -lsa ../
-          echo 'testing parent dir'
-          ls -lsa ../../
           PDIR=$(pwd)
-          echo 'testing PDIR'
-          ls -lsa $PDIR
           cd $PDIR/awx
           export ANSIBLE_FORCE_COLOR=true
           if [ -e requirements.yml ]; then
