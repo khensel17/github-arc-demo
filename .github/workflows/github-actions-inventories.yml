@@ -22,6 +22,7 @@ env:
   #   awx-prd2.apps.okdprdb.production.domain.local
   RUNNER_TAG: "test"
   MANAGED_ANSIBLE_AWX_BRANCH: "development"
+  ANSIBLE_VERBOSITY: 2
 
 jobs:
   linting:
