@@ -114,8 +114,8 @@ jobs:
 
       - name: Deploy AWX inventory
         env:
-          GITHUB_SERVER_URL: ${{ env.GITHUB_SERVER_URL }}
-          GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           echo 'This job deploys AWX Inventory configuration'
           PDIR=$(pwd)
