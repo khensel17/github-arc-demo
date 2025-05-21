@@ -68,7 +68,7 @@ jobs:
       - name: Checkout ansible-inv-tst repo
         uses: actions/checkout@v4
         with:
-          repository: khensel17/ansible-inv-tst
+          repository: khensel17/ansible-inventory-tst
           ref: main
           path: ansible-inv-tst
 
