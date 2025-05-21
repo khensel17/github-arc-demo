@@ -85,17 +85,17 @@ jobs:
         run: |
           echo 'This job tests AWX Playbook configuration'
           PDIR=$(pwd)
-          cd $PDIR/tmp
+          cd $PDIR/awx
           export ANSIBLE_FORCE_COLOR=true
           if [ -e requirements.yml ]; then
             ansible-galaxy collection install -r requirements.yml
           fi
 
           if [ $GITHUB_REF == "main" ]; then
-            USE_INVENTORY="ansible-inv-prd"
+            USE_INVENTORY="ansible-inventory-prd"
             USE_CONFIG_FILE="prod"
           else
-            USE_INVENTORY="ansible-inv-tst"
+            USE_INVENTORY="ansible-inventory-tst"
             USE_CONFIG_FILE="test"
           fi
 
