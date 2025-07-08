@@ -1,0 +1,108 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: hpv-awx-ota
+  namespace: hpv-bdmz-ota
+spec:
+  web_readiness_timeout: 1
+  postgres_keepalives_count: 5
+  control_plane_ee_image: docker-quay.artifacts.kpn.org/ansible/awx-ee
+  web_readiness_period: 0
+  postgres_keepalives_idle: 5
+  ee_resource_requirements:
+    requests:
+      cpu: '2'
+      memory: 1Gi
+  task_liveness_period: 0
+  metrics_utility_cronjob_report_schedule: '@monthly'
+  create_preload_data: true
+  route_tls_termination_mechanism: Edge
+  garbage_collect_secrets: false
+  service_type: ClusterIP
+  ingress_type: route
+  loadbalancer_port: 80
+  web_liveness_failure_threshold: 3
+  task_liveness_initial_delay: 5
+  no_log: false
+  init_container_image_version: 24.6.1
+  task_readiness_failure_threshold: 3
+  task_resource_requirements:
+    limits:
+      cpu: 1500m
+      memory: 2Gi
+    requests:
+      cpu: 1000m
+      memory: 1Gi
+  image_pull_policy: IfNotPresent
+  web_readiness_initial_delay: 20
+  metrics_utility_console_enabled: false
+  loadbalancer_ip: ''
+  web_manage_replicas: true
+  projects_storage_size: 8Gi
+  auto_upgrade: true
+  task_privileged: false
+  init_container_image: docker-quay.artifacts.kpn.org/ansible/awx-ee
+  postgres_image_version: latest
+  task_readiness_period: 0
+  bundle_cacert_secret: kpn-ca-custom-certs
+  redis_image_version: latest
+  web_liveness_timeout: 1
+  postgres_keepalives: true
+  task_readiness_timeout: 1
+  web_liveness_period: 0
+  metrics_utility_enabled: false
+  hostname: awx-hpv-bdmz-ota.apps.c5.ocp.kpn.org
+  postgres_keepalives_interval: 5
+  init_container_resource_requirements:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 750m
+      memory: 512Mi
+  ipv6_disabled: false
+  image_version: latest
+  task_liveness_failure_threshold: 3
+  projects_storage_access_mode: ReadWriteMany
+  postgres_image: docker-quay.artifacts.kpn.org/sclorg/postgresql-15-c9s
+  metrics_utility_pvc_claim_size: 5Gi
+  loadbalancer_class: ''
+  ldap_cacert_secret: kpn-ca-custom-certs
+  set_self_labels: true
+  web_resource_requirements:
+    limits:
+      cpu: 1500m
+      memory: 2Gi
+    requests:
+      cpu: 1000m
+      memory: 1Gi
+  web_readiness_failure_threshold: 3
+  web_liveness_initial_delay: 5
+  redis_image: docker.artifacts.kpn.org/redis
+  ee_images:
+    - image: docker-quay.artifacts.kpn.org/ansible/awx-ee
+      name: awx-execution-environment
+    - image: docker-quay.artifacts.kpn.org/ansible/awx-ee
+      name: awx-hpv-web
+    - image: docker-quay.artifacts.kpn.org/ansible/awx-ee
+      name: awx-hpv-task
+  task_readiness_initial_delay: 20
+  postgres_storage_requirements:
+    requests:
+      storage: 10Gi
+  projects_persistence: false
+  postgres_resource_requirements:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  image: docker-quay.artifacts.kpn.org/ansible/awx
+  task_manage_replicas: true
+  replicas: 1
+  admin_user: admin
+  loadbalancer_protocol: http
+  metrics_utility_cronjob_gather_schedule: '@hourly'
+  route_host: awx.apps.c5.ocp.kpn.org
+  task_liveness_timeout: 1
