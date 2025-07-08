@@ -13,8 +13,12 @@ resources:
 
 # Set the image tags to match the git version from above
 images:
-  - name: docker-quay.artifacts.kpn.org/ansible/awx-operator
+  - name: quay.io/ansible/awx-operator
+    newName: docker-quay.artifacts.kpn.org/ansible/awx-operator
     newTag: 2.19.1
+  - name: gcr.io/kubebuilder/kube-rbac-proxy
+    newName: docker-gcr.artifacts.kpn.org/kubebuilder/kube-rbac-proxy
+    newTag: v0.15.0
 
 # Specify a custom namespace in which to install AWX
 namespace: hpv-bdmz-ota
