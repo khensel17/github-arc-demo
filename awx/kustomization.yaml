@@ -3,8 +3,13 @@ kind: Kustomization
 resources:
   # Find the latest tag here: https://github.com/ansible/awx-operator/releases
   # - github.com/ansible/awx-operator/config/default?ref=2.19.1
-  - github.com/ansible/awx-operator/config/rbac?ref=2.19.1
   - github.com/ansible/awx-operator/config/manager?ref=2.19.1
+  - rbac/rolebinding.yaml
+  - rbac/leader_election_role_binding.yaml
+  - rbac/leader_election_role.yaml
+  - rbac/service_account.yaml
+  - rbac/role.yaml
+  - rbac/role_binding.yaml
 
 # Set the image tags to match the git version from above
 images:
@@ -22,4 +27,4 @@ namespace: hpv-bdmz-ota
 namePrefix: awx-operator-
 
 patches:
-- path: manager_auth_proxy_patch.yaml
+  - path: manager_auth_proxy_patch.yaml
