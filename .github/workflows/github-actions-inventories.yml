@@ -29,7 +29,7 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
 
@@ -40,7 +40,7 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
 
@@ -55,12 +55,12 @@ jobs:
     needs: [linting, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
@@ -97,12 +97,12 @@ jobs:
     needs: [linting, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
@@ -156,12 +156,12 @@ jobs:
     needs: deploy-inventory
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
