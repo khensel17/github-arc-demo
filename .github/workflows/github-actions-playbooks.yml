@@ -29,7 +29,7 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
@@ -40,7 +40,7 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
@@ -54,19 +54,19 @@ jobs:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
           path: awx
 
       - name: Checkout ansible-inv-tst repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: khensel17/ansible-inventory-tst
           ref: main
@@ -130,12 +130,12 @@ jobs:
     needs: [linting, test-ansible-galaxy, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
@@ -172,12 +172,12 @@ jobs:
     needs: [linting, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
@@ -231,12 +231,12 @@ jobs:
     needs: deploy-playbooks
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Checkout managed-ansible-awx repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: khensel17/managed-ansible-awx
           ref: main
